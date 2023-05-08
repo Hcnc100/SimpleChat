@@ -28,6 +28,7 @@ class App extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
       ),
       routerConfig: AppRouter.router,
+
     );
   }
 }

@@ -26,5 +26,11 @@ class AuthRepoImpl implements AuthRepository{
 
   @override
   Future<void> register(String email, String password) => _authRemoteDataSource.register(email, password);
+  
+  @override
+  Future<bool> isLogged() async {
+    final authData = await _authLocalDatSource.getAuthData();
+    return authData != null;
+  }
 
 }

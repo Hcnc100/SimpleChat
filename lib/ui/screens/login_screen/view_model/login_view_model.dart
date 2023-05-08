@@ -73,4 +73,17 @@ class LoginViewModel extends StateNotifier<LoginState> {
     }
     return isValidate;
   }
+
+  Future<void> logout() async {
+      try {
+        state = state.copyWith(isLoading: true);
+       await  _authRepository.logout();
+
+      } catch (e) {
+        print(e);
+      }
+      finally{
+        state = state.copyWith(isLoading: false);
+      }
+  }
 }

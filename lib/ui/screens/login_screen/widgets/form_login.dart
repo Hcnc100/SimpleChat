@@ -1,6 +1,8 @@
+import 'package:chat_app/ui/navigation/app_router.dart';
 import 'package:chat_app/ui/screens/login_screen/view_model/login_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class FormLogin extends ConsumerWidget {
   const FormLogin({super.key});
@@ -49,7 +51,9 @@ class _ButtonLogin extends ConsumerWidget {
     return FilledButton(
         onPressed: () {
           if (ref.read(loginViewModel.notifier).validate()) {
-            ref.read(loginViewModel.notifier).onLogin();
+            ref.read(loginViewModel.notifier).onLogin().then((_) {
+              context.go(AppRouter.chat);
+            });
           }
         },
         child: const Padding(
