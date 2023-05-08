@@ -1,9 +1,16 @@
+import 'package:chat_app/domain/auth/auth_repository.dart';
 import 'package:chat_app/ui/screens/login_screen/view_model/login_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class LoginViewMode extends StateNotifier<LoginState> {
-  LoginViewMode(super.state);
+class LoginViewModel extends StateNotifier<LoginState> {
+
+  final AuthRepository _authRepository;
+
+  LoginViewModel(LoginState state,{required AuthRepository authRepository})
+      : _authRepository = authRepository,
+        super(state);
+
   
   final _formKey = GlobalKey<FormState>();
   GlobalKey<FormState> get formKey => _formKey;
@@ -19,7 +26,7 @@ class LoginViewMode extends StateNotifier<LoginState> {
   Future<void> onLogin() async {
     try {
       state = state.copyWith(isLoading: true);
-      await Future.delayed(const Duration(seconds: 10), () { });
+      await _authRepository.login(state.email, state.password);
     } catch (e) {
       print(e);
     } finally {
