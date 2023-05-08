@@ -77,6 +77,8 @@ class _InputPassword extends ConsumerWidget {
     final isPasswordVisible =
         ref.watch(loginViewModel.select((value) => value.isPasswordVisible));
 
+        final isLoading = ref.watch(loginViewModel.select((value) => value.isLoading));
+
     return TextFormField(
       decoration: InputDecoration(
         hintText: 'Password',
@@ -84,7 +86,7 @@ class _InputPassword extends ConsumerWidget {
             borderRadius: BorderRadius.all(Radius.circular(15))),
         prefixIcon: const Icon(Icons.lock),
         suffixIcon: IconButton(
-          icon: const Icon(Icons.visibility),
+          icon:  Icon( isPasswordVisible ? Icons.visibility : Icons.visibility_off),
           onPressed: () =>
               ref.read(loginViewModel.notifier).togglePasswordVisibility(),
         ),
@@ -94,6 +96,8 @@ class _InputPassword extends ConsumerWidget {
       validator: (value) =>
           ref.read(loginViewModel.notifier).validatePassword(value),
       obscureText: !isPasswordVisible,
+      keyboardType: TextInputType.visiblePassword,
+      enabled: !isLoading,
     );
   }
 }
@@ -105,6 +109,9 @@ class _InputEmail extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+
+    final isLoading = ref.watch(loginViewModel.select((value) => value.isLoading));
+
     return TextFormField(
       decoration: const InputDecoration(
         hintText: 'Email',
@@ -117,6 +124,7 @@ class _InputEmail extends ConsumerWidget {
       validator: (value) =>
           ref.read(loginViewModel.notifier).validateEmail(value),
       keyboardType: TextInputType.emailAddress,
+      enabled: !isLoading,  
     );
   }
 }
