@@ -1,3 +1,4 @@
+import 'package:chat_app/share/extensions.dart';
 import 'package:chat_app/ui/screens/register_screen/view_model/register_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -55,13 +56,11 @@ class _ButtonRegister extends ConsumerWidget {
     return ElevatedButton(
       onPressed: () {
         if (ref.read(registerViewModel.notifier).validate()) {
-          ref.read(registerViewModel.notifier).onRegister();
+          ref.read(registerViewModel.notifier).onRegister().then((_) {
+            Navigator.of(context).pop();
+          });
         } else {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Please fill in the form correctly'),
-            ),
-          );
+          context.showSnack( 'Please fill in the form correctly');
         }
       },
       child: const Text('Register'),
@@ -99,7 +98,7 @@ class _InputConfirmPassword extends ConsumerWidget {
           .read(registerViewModel.notifier)
           .onConfirmPasswordChanged(value),
       validator: (value) =>
-          ref.read(registerViewModel.notifier).validatePassword(value),
+          ref.read(registerViewModel.notifier).validatePassword(value: value, isConfirmPassword: true),
       obscureText: !isPasswordVisible,
       enabled:  !isRegisterLoading,
     );
@@ -134,7 +133,7 @@ class _InputPassword extends ConsumerWidget {
       keyboardType: TextInputType.visiblePassword,
       onChanged: (value) =>
           ref.read(registerViewModel.notifier).onPasswordChanged(value),
-          validator: (value) => ref.read(registerViewModel.notifier).validatePassword(value),
+          validator: (value) => ref.read(registerViewModel.notifier).validatePassword(value: value),
           obscureText:  !isPasswordVisible,
           enabled:  !isRegisterLoading,
     );

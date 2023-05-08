@@ -1,13 +1,18 @@
 
 
+import 'package:chat_app/domain/auth/auth_repository.dart';
 import 'package:chat_app/ui/screens/register_screen/view_model/register_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class RegisterViewModel extends StateNotifier<RegisterState>{
-  RegisterViewModel(super.state);
 
+  final AuthRepository _authRepository;
 
+  RegisterViewModel(state,{required AuthRepository authRepository})
+      : _authRepository = authRepository,
+        super(state);
 
   final _formKey = GlobalKey<FormState>();
   GlobalKey<FormState> get formKey => _formKey;
@@ -31,15 +36,16 @@ class RegisterViewModel extends StateNotifier<RegisterState>{
   Future<void> onRegister() async {
     try {
       state = state.copyWith(isLoading: true);
-      await Future.delayed(const Duration(seconds: 10), () { });
+      await _authRepository.register(state.email, state.password);
+      Fluttertoast.showToast(msg: "Register Successfull");
     } catch (e) {
-      print(e);
+      Fluttertoast.showToast(msg: "Register Failed");
     } finally {
       state = state.copyWith(isLoading: false);
     }
   }
 
-  validatePassword(String? value) {
+  validatePassword({String? value, bool isConfirmPassword = false}) {
     if (value == null || value.isEmpty) {
       return 'Please enter some text';
     }
@@ -51,6 +57,11 @@ class RegisterViewModel extends StateNotifier<RegisterState>{
       return 'Password must be less than 15 characters';
     }
 
+
+
+  if (isConfirmPassword && value != state.password) {
+    return 'Password does not match';
+  }
     return null;
   }
 

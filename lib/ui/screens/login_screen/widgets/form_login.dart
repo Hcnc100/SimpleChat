@@ -50,12 +50,6 @@ class _ButtonLogin extends ConsumerWidget {
         onPressed: () {
           if (ref.read(loginViewModel.notifier).validate()) {
             ref.read(loginViewModel.notifier).onLogin();
-          } else {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text('Please fill in the form correctly'),
-              ),
-            );
           }
         },
         child: const Padding(

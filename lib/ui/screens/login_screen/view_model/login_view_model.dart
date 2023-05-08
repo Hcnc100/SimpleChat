@@ -2,6 +2,7 @@ import 'package:chat_app/domain/auth/auth_repository.dart';
 import 'package:chat_app/ui/screens/login_screen/view_model/login_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class LoginViewModel extends StateNotifier<LoginState> {
 
@@ -27,8 +28,10 @@ class LoginViewModel extends StateNotifier<LoginState> {
     try {
       state = state.copyWith(isLoading: true);
       await _authRepository.login(state.email, state.password);
+      Fluttertoast.showToast(msg: "Login Successfull");
     } catch (e) {
       print(e);
+      Fluttertoast.showToast(msg: "Login Failed");
     } finally {
       state = state.copyWith(isLoading: false);
     }
@@ -64,6 +67,10 @@ class LoginViewModel extends StateNotifier<LoginState> {
   }
 
   validate() {
-    return _formKey.currentState!.validate();
+    final isValidate = _formKey.currentState!.validate();
+    if(!isValidate){
+      Fluttertoast.showToast(msg: "Please fill in the form correctly");
+    }
+    return isValidate;
   }
 }

@@ -16,6 +16,7 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_riverpod: ^2.3.6
+  fluttertoast: ^8.2.1
   freezed_annotation: ^2.2.0
   go_router: ^7.0.0
   injector: ^2.0.0
