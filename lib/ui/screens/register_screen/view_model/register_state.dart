@@ -22,7 +22,7 @@ class RegisterState with _$RegisterState {
 }
 
 final registerViewModel =
-    StateNotifierProvider<RegisterViewModel, RegisterState>(
+    StateNotifierProvider.autoDispose<RegisterViewModel, RegisterState>(
   (ref) => RegisterViewModel(
     RegisterState(),
     authRepository: Injector.appInstance.get<AuthRepository>(),
