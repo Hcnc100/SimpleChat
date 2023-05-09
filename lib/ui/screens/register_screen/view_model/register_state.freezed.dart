@@ -22,6 +22,7 @@ mixin _$RegisterState {
   bool get isLoading => throw _privateConstructorUsedError;
   bool get isPasswordVisible => throw _privateConstructorUsedError;
   bool get isConfirmPasswordVisible => throw _privateConstructorUsedError;
+  String get nickName => throw _privateConstructorUsedError;
   File? get imageProfile => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -42,6 +43,7 @@ abstract class $RegisterStateCopyWith<$Res> {
       bool isLoading,
       bool isPasswordVisible,
       bool isConfirmPasswordVisible,
+      String nickName,
       File? imageProfile});
 }
 
@@ -64,6 +66,7 @@ class _$RegisterStateCopyWithImpl<$Res, $Val extends RegisterState>
     Object? isLoading = null,
     Object? isPasswordVisible = null,
     Object? isConfirmPasswordVisible = null,
+    Object? nickName = null,
     Object? imageProfile = freezed,
   }) {
     return _then(_value.copyWith(
@@ -91,6 +94,10 @@ class _$RegisterStateCopyWithImpl<$Res, $Val extends RegisterState>
           ? _value.isConfirmPasswordVisible
           : isConfirmPasswordVisible // ignore: cast_nullable_to_non_nullable
               as bool,
+      nickName: null == nickName
+          ? _value.nickName
+          : nickName // ignore: cast_nullable_to_non_nullable
+              as String,
       imageProfile: freezed == imageProfile
           ? _value.imageProfile
           : imageProfile // ignore: cast_nullable_to_non_nullable
@@ -114,6 +121,7 @@ abstract class _$$_RegisterStateCopyWith<$Res>
       bool isLoading,
       bool isPasswordVisible,
       bool isConfirmPasswordVisible,
+      String nickName,
       File? imageProfile});
 }
 
@@ -134,6 +142,7 @@ class __$$_RegisterStateCopyWithImpl<$Res>
     Object? isLoading = null,
     Object? isPasswordVisible = null,
     Object? isConfirmPasswordVisible = null,
+    Object? nickName = null,
     Object? imageProfile = freezed,
   }) {
     return _then(_$_RegisterState(
@@ -161,6 +170,10 @@ class __$$_RegisterStateCopyWithImpl<$Res>
           ? _value.isConfirmPasswordVisible
           : isConfirmPasswordVisible // ignore: cast_nullable_to_non_nullable
               as bool,
+      nickName: null == nickName
+          ? _value.nickName
+          : nickName // ignore: cast_nullable_to_non_nullable
+              as String,
       imageProfile: freezed == imageProfile
           ? _value.imageProfile
           : imageProfile // ignore: cast_nullable_to_non_nullable
@@ -179,6 +192,7 @@ class _$_RegisterState implements _RegisterState {
       this.isLoading = false,
       this.isPasswordVisible = false,
       this.isConfirmPasswordVisible = false,
+      this.nickName = "",
       this.imageProfile});
 
   @override
@@ -200,11 +214,14 @@ class _$_RegisterState implements _RegisterState {
   @JsonKey()
   final bool isConfirmPasswordVisible;
   @override
+  @JsonKey()
+  final String nickName;
+  @override
   final File? imageProfile;
 
   @override
   String toString() {
-    return 'RegisterState(email: $email, password: $password, confirmPassword: $confirmPassword, isLoading: $isLoading, isPasswordVisible: $isPasswordVisible, isConfirmPasswordVisible: $isConfirmPasswordVisible, imageProfile: $imageProfile)';
+    return 'RegisterState(email: $email, password: $password, confirmPassword: $confirmPassword, isLoading: $isLoading, isPasswordVisible: $isPasswordVisible, isConfirmPasswordVisible: $isConfirmPasswordVisible, nickName: $nickName, imageProfile: $imageProfile)';
   }
 
   @override
@@ -224,13 +241,23 @@ class _$_RegisterState implements _RegisterState {
             (identical(
                     other.isConfirmPasswordVisible, isConfirmPasswordVisible) ||
                 other.isConfirmPasswordVisible == isConfirmPasswordVisible) &&
+            (identical(other.nickName, nickName) ||
+                other.nickName == nickName) &&
             (identical(other.imageProfile, imageProfile) ||
                 other.imageProfile == imageProfile));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, email, password, confirmPassword,
-      isLoading, isPasswordVisible, isConfirmPasswordVisible, imageProfile);
+  int get hashCode => Object.hash(
+      runtimeType,
+      email,
+      password,
+      confirmPassword,
+      isLoading,
+      isPasswordVisible,
+      isConfirmPasswordVisible,
+      nickName,
+      imageProfile);
 
   @JsonKey(ignore: true)
   @override
@@ -247,6 +274,7 @@ abstract class _RegisterState implements RegisterState {
       final bool isLoading,
       final bool isPasswordVisible,
       final bool isConfirmPasswordVisible,
+      final String nickName,
       final File? imageProfile}) = _$_RegisterState;
 
   @override
@@ -261,6 +289,8 @@ abstract class _RegisterState implements RegisterState {
   bool get isPasswordVisible;
   @override
   bool get isConfirmPasswordVisible;
+  @override
+  String get nickName;
   @override
   File? get imageProfile;
   @override

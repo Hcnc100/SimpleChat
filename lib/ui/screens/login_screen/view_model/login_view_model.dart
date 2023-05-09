@@ -1,18 +1,17 @@
 import 'package:chat_app/domain/auth/auth_repository.dart';
+import 'package:chat_app/models/api/credentials_dto.dart';
 import 'package:chat_app/ui/screens/login_screen/view_model/login_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class LoginViewModel extends StateNotifier<LoginState> {
-
   final AuthRepository _authRepository;
 
-  LoginViewModel(LoginState state,{required AuthRepository authRepository})
+  LoginViewModel(LoginState state, {required AuthRepository authRepository})
       : _authRepository = authRepository,
         super(state);
 
-  
   final _formKey = GlobalKey<FormState>();
   GlobalKey<FormState> get formKey => _formKey;
 
@@ -27,7 +26,10 @@ class LoginViewModel extends StateNotifier<LoginState> {
   Future<void> onLogin() async {
     try {
       state = state.copyWith(isLoading: true);
-      await _authRepository.login(state.email, state.password);
+      await _authRepository.login(CredentialsDTO(
+        email: state.email,
+        password: state.password,
+      ));
       Fluttertoast.showToast(msg: "Login Successfull");
     } catch (e) {
       print(e);
@@ -45,9 +47,9 @@ class LoginViewModel extends StateNotifier<LoginState> {
       return 'Password must be at least 6 characters';
     }
 
-  if (value.length > 15) {
-    return 'Password must be less than 15 characters';
-  }
+    if (value.length > 15) {
+      return 'Password must be less than 15 characters';
+    }
 
     return null;
   }
@@ -67,23 +69,21 @@ class LoginViewModel extends StateNotifier<LoginState> {
   }
 
   validate() {
-    if( !_formKey.currentState!.validate()){
-       Fluttertoast.showToast(msg: "Please fill the form correctly");
-        return false;
+    if (!_formKey.currentState!.validate()) {
+      Fluttertoast.showToast(msg: "Please fill the form correctly");
+      return false;
     }
     return true;
   }
 
   Future<void> logout() async {
-      try {
-        state = state.copyWith(isLoading: true);
-       await  _authRepository.logout();
-
-      } catch (e) {
-        print(e);
-      }
-      finally{
-        state = state.copyWith(isLoading: false);
-      }
+    try {
+      state = state.copyWith(isLoading: true);
+      await _authRepository.logout();
+    } catch (e) {
+      print(e);
+    } finally {
+      state = state.copyWith(isLoading: false);
+    }
   }
 }

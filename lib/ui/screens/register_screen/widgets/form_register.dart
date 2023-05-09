@@ -2,12 +2,14 @@ import 'dart:io';
 
 import 'package:chat_app/share/extensions.dart';
 import 'package:chat_app/types/image_type.dart';
+import 'package:chat_app/ui/navigation/app_router.dart';
 import 'package:chat_app/ui/screens/register_screen/view_model/register_state.dart';
 import 'package:chat_app/ui/screens/register_screen/widgets/menu_select_image.dart';
 import 'package:chat_app/ui/screens/register_screen/widgets/section_select_photo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg_provider/flutter_svg_provider.dart';
+import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 
 class FormRegister extends ConsumerWidget {
@@ -30,13 +32,15 @@ class FormRegister extends ConsumerWidget {
               Text("New Account",
                   style: Theme.of(context).textTheme.titleLarge,
                   textAlign: TextAlign.center),
-                      const SizedBox(height: 10),
+              const SizedBox(height: 15),
               const SectionPhotoProfile(),
-              const SizedBox(height: 10),
+              const SizedBox(height: 15),
+                  const _InputNickName(),
+              const SizedBox(height: 15),
               const _InputEmail(),
-              const SizedBox(height: 20),
+              const SizedBox(height: 15),
               const _InputPassword(),
-              const SizedBox(height: 20),
+              const SizedBox(height: 15),
               const _InputConfirmPassword(),
               const SizedBox(height: 40),
               const _ButtonRegister(),
@@ -48,7 +52,25 @@ class FormRegister extends ConsumerWidget {
   }
 }
 
+class _InputNickName extends ConsumerWidget {
+  const _InputNickName({super.key});
 
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return TextFormField(
+      decoration: const InputDecoration(
+          prefixIcon: Icon(Icons.person),
+          labelText: 'Nick Name',
+          border: OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(15)))),
+      keyboardType: TextInputType.name,
+      onChanged: (value) =>
+          ref.read(registerViewModel.notifier).onNickNameChanged(value),
+      validator: (value) =>
+          ref.read(registerViewModel.notifier).validateNickName(value),
+    );
+  }
+}
 
 class _ButtonRegister extends ConsumerWidget {
   const _ButtonRegister({
@@ -67,9 +89,9 @@ class _ButtonRegister extends ConsumerWidget {
     return ElevatedButton(
       onPressed: () {
         if (ref.read(registerViewModel.notifier).validate()) {
-          ref.read(registerViewModel.notifier).onRegister().then((_) {
-            Navigator.of(context).pop();
-          });
+          ref.read(registerViewModel.notifier).onRegister(
+              onSuccess: () => context.go(AppRouter.chat),
+          );
         }
       },
       child: const Text('Register'),

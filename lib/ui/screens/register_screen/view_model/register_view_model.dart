@@ -1,18 +1,17 @@
-
-
 import 'dart:io';
 
 import 'package:chat_app/domain/auth/auth_repository.dart';
+import 'package:chat_app/models/api/credentials_dto.dart';
+import 'package:chat_app/models/api/register_dto.dart';
 import 'package:chat_app/ui/screens/register_screen/view_model/register_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
-class RegisterViewModel extends StateNotifier<RegisterState>{
-
+class RegisterViewModel extends StateNotifier<RegisterState> {
   final AuthRepository _authRepository;
 
-  RegisterViewModel(state,{required AuthRepository authRepository})
+  RegisterViewModel(state, {required AuthRepository authRepository})
       : _authRepository = authRepository,
         super(state);
 
@@ -32,25 +31,31 @@ class RegisterViewModel extends StateNotifier<RegisterState>{
   }
 
   validate() {
-      if (state.imageProfile == null){
-         Fluttertoast.showToast(msg: "Please select image");
-          return false;
-      }
-      if( !_formKey.currentState!.validate()){
-         Fluttertoast.showToast(msg: "Please fill the form correctly");
-          return false;
-      }
-      return true;
-      
+    if (state.imageProfile == null) {
+      Fluttertoast.showToast(msg: "Please select image");
+      return false;
+    }
+    if (!_formKey.currentState!.validate()) {
+      Fluttertoast.showToast(msg: "Please fill the form correctly");
+      return false;
+    }
+    return true;
   }
 
-  Future<void> onRegister() async {
+  Future<void> onRegister(
+   { required VoidCallback onSuccess,}
+  ) async {
     try {
       state = state.copyWith(isLoading: true);
-      await _authRepository.register(state.email, state.password);
+
+      await _authRepository.createAccount(state);
+      
       Fluttertoast.showToast(msg: "Register Successfull");
+
+      onSuccess();
     } catch (e) {
       Fluttertoast.showToast(msg: "Register Failed");
+      print(e);
     } finally {
       state = state.copyWith(isLoading: false);
     }
@@ -68,11 +73,9 @@ class RegisterViewModel extends StateNotifier<RegisterState>{
       return 'Password must be less than 15 characters';
     }
 
-
-
-  if (isConfirmPassword && value != state.password) {
-    return 'Password does not match';
-  }
+    if (isConfirmPassword && value != state.password) {
+      return 'Password does not match';
+    }
     return null;
   }
 
@@ -81,7 +84,8 @@ class RegisterViewModel extends StateNotifier<RegisterState>{
   }
 
   toggleConfirmPasswordVisibility() {
-    state = state.copyWith(isConfirmPasswordVisible: !state.isConfirmPasswordVisible);
+    state = state.copyWith(
+        isConfirmPasswordVisible: !state.isConfirmPasswordVisible);
   }
 
   validateEmail(String? value) {
@@ -91,6 +95,7 @@ class RegisterViewModel extends StateNotifier<RegisterState>{
     if (!value.contains('@')) {
       return 'Please enter a valid email';
     }
+
     return null;
   }
 
@@ -99,12 +104,30 @@ class RegisterViewModel extends StateNotifier<RegisterState>{
   }
 
   onToggleConfirmPasswordVisibility() {
-    state = state.copyWith(isConfirmPasswordVisible: !state.isConfirmPasswordVisible);
+    state = state.copyWith(
+        isConfirmPasswordVisible: !state.isConfirmPasswordVisible);
   }
 
   void onImageChanged(File file) {
     state = state.copyWith(imageProfile: file);
   }
 
-  
+  onNickNameChanged(String value) {
+    state = state.copyWith(nickName: value);
+  }
+
+  validateNickName(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Please enter some text';
+    }
+    if (value.length < 3) {
+      return 'Nick Name must be at least 3 characters';
+    }
+
+    if (value.length > 15) {
+      return 'Nick Name must be less than 15 characters';
+    }
+
+    return null;
+  }
 }

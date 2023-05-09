@@ -17,6 +17,7 @@ class RegisterState with _$RegisterState {
     @Default(false) bool isLoading,
     @Default(false) bool isPasswordVisible,
     @Default(false) bool isConfirmPasswordVisible,
+    @Default("") String nickName,
     File? imageProfile,
   }) = _RegisterState;
 }

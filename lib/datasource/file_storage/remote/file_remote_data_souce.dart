@@ -1,5 +1,5 @@
 
 
 abstract class FileRemoteDataSource {
-  Future<String> uploadImage(String fileName, String filePath);
+  Future<String> uploadImage({required String fileName, required String filePath});
 }

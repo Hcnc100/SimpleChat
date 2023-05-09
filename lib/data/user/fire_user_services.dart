@@ -1,15 +1,16 @@
+import 'package:chat_app/models/api/register_dto.dart';
 import 'package:chat_app/models/auth_data/auth_data.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class FireUserServices{
     final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-    Future<void> addUser(AuthData authData) async {
-        await _firestore.collection("users").doc(authData.id).set(authData.toJson());
+    Future<void> addUser(RegisterDTO registerDTO) async {
+        await _firestore.collection("users").doc(registerDTO.id).set(registerDTO.toJsonFirebase( ));
     }
 
-    Future<void> updateUser(AuthData authData) async {
-        await _firestore.collection("users").doc(authData.id).update(authData.toJson());
+    Future<void> updateUser(RegisterDTO registerDTO) async {
+        await _firestore.collection("users").doc(registerDTO.id).update(registerDTO.toJsonFirebase());
     }
 
     Future<AuthData> getUser(String id) async {
