@@ -12,6 +12,8 @@ class AuthData with _$AuthData {
   const factory AuthData({
     required String email,
     required String id,
+    required String nickName,
+    required String profileUrl,
   }) = _AuthData;
 
   factory AuthData.fromJson(Map<String, dynamic> json) =>

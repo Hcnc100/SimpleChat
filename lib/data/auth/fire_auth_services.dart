@@ -1,7 +1,7 @@
 import 'package:chat_app/models/server_exception.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-class FirebaseAuthentication {
+class FireAuthServices {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   Future<UserCredential> login(String email, String password) async {

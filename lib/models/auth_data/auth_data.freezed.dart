@@ -22,6 +22,8 @@ AuthData _$AuthDataFromJson(Map<String, dynamic> json) {
 mixin _$AuthData {
   String get email => throw _privateConstructorUsedError;
   String get id => throw _privateConstructorUsedError;
+  String get nickName => throw _privateConstructorUsedError;
+  String get profileUrl => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -34,7 +36,7 @@ abstract class $AuthDataCopyWith<$Res> {
   factory $AuthDataCopyWith(AuthData value, $Res Function(AuthData) then) =
       _$AuthDataCopyWithImpl<$Res, AuthData>;
   @useResult
-  $Res call({String email, String id});
+  $Res call({String email, String id, String nickName, String profileUrl});
 }
 
 /// @nodoc
@@ -52,6 +54,8 @@ class _$AuthDataCopyWithImpl<$Res, $Val extends AuthData>
   $Res call({
     Object? email = null,
     Object? id = null,
+    Object? nickName = null,
+    Object? profileUrl = null,
   }) {
     return _then(_value.copyWith(
       email: null == email
@@ -61,6 +65,14 @@ class _$AuthDataCopyWithImpl<$Res, $Val extends AuthData>
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      nickName: null == nickName
+          ? _value.nickName
+          : nickName // ignore: cast_nullable_to_non_nullable
+              as String,
+      profileUrl: null == profileUrl
+          ? _value.profileUrl
+          : profileUrl // ignore: cast_nullable_to_non_nullable
               as String,
     ) as $Val);
   }
@@ -73,7 +85,7 @@ abstract class _$$_AuthDataCopyWith<$Res> implements $AuthDataCopyWith<$Res> {
       __$$_AuthDataCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String email, String id});
+  $Res call({String email, String id, String nickName, String profileUrl});
 }
 
 /// @nodoc
@@ -89,6 +101,8 @@ class __$$_AuthDataCopyWithImpl<$Res>
   $Res call({
     Object? email = null,
     Object? id = null,
+    Object? nickName = null,
+    Object? profileUrl = null,
   }) {
     return _then(_$_AuthData(
       email: null == email
@@ -99,6 +113,14 @@ class __$$_AuthDataCopyWithImpl<$Res>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
+      nickName: null == nickName
+          ? _value.nickName
+          : nickName // ignore: cast_nullable_to_non_nullable
+              as String,
+      profileUrl: null == profileUrl
+          ? _value.profileUrl
+          : profileUrl // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -106,7 +128,11 @@ class __$$_AuthDataCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$_AuthData implements _AuthData {
-  const _$_AuthData({required this.email, required this.id});
+  const _$_AuthData(
+      {required this.email,
+      required this.id,
+      required this.nickName,
+      required this.profileUrl});
 
   factory _$_AuthData.fromJson(Map<String, dynamic> json) =>
       _$$_AuthDataFromJson(json);
@@ -115,10 +141,14 @@ class _$_AuthData implements _AuthData {
   final String email;
   @override
   final String id;
+  @override
+  final String nickName;
+  @override
+  final String profileUrl;
 
   @override
   String toString() {
-    return 'AuthData(email: $email, id: $id)';
+    return 'AuthData(email: $email, id: $id, nickName: $nickName, profileUrl: $profileUrl)';
   }
 
   @override
@@ -127,12 +157,16 @@ class _$_AuthData implements _AuthData {
         (other.runtimeType == runtimeType &&
             other is _$_AuthData &&
             (identical(other.email, email) || other.email == email) &&
-            (identical(other.id, id) || other.id == id));
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.nickName, nickName) ||
+                other.nickName == nickName) &&
+            (identical(other.profileUrl, profileUrl) ||
+                other.profileUrl == profileUrl));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, email, id);
+  int get hashCode => Object.hash(runtimeType, email, id, nickName, profileUrl);
 
   @JsonKey(ignore: true)
   @override
@@ -150,7 +184,10 @@ class _$_AuthData implements _AuthData {
 
 abstract class _AuthData implements AuthData {
   const factory _AuthData(
-      {required final String email, required final String id}) = _$_AuthData;
+      {required final String email,
+      required final String id,
+      required final String nickName,
+      required final String profileUrl}) = _$_AuthData;
 
   factory _AuthData.fromJson(Map<String, dynamic> json) = _$_AuthData.fromJson;
 
@@ -158,6 +195,10 @@ abstract class _AuthData implements AuthData {
   String get email;
   @override
   String get id;
+  @override
+  String get nickName;
+  @override
+  String get profileUrl;
   @override
   @JsonKey(ignore: true)
   _$$_AuthDataCopyWith<_$_AuthData> get copyWith =>
