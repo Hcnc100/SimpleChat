@@ -42,18 +42,17 @@ class _ButtonLogin extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final isLoginLoading =
         ref.watch(loginViewModel.select((value) => value.isLoading));
-    
-    if (isLoginLoading)  {
+
+    if (isLoginLoading) {
       return const CircularProgressIndicator();
     }
-    
 
     return FilledButton(
         onPressed: () {
           if (ref.read(loginViewModel.notifier).validate()) {
-            ref.read(loginViewModel.notifier).onLogin().then((_) {
-              context.go(AppRouter.chat);
-            });
+            ref.read(loginViewModel.notifier).onLogin(
+                  onSuccess: () => context.go(AppRouter.chat),
+                );
           }
         },
         child: const Padding(
@@ -75,7 +74,8 @@ class _InputPassword extends ConsumerWidget {
     final isPasswordVisible =
         ref.watch(loginViewModel.select((value) => value.isPasswordVisible));
 
-        final isLoading = ref.watch(loginViewModel.select((value) => value.isLoading));
+    final isLoading =
+        ref.watch(loginViewModel.select((value) => value.isLoading));
 
     return TextFormField(
       decoration: InputDecoration(
@@ -84,7 +84,8 @@ class _InputPassword extends ConsumerWidget {
             borderRadius: BorderRadius.all(Radius.circular(15))),
         prefixIcon: const Icon(Icons.lock),
         suffixIcon: IconButton(
-          icon:  Icon( isPasswordVisible ? Icons.visibility : Icons.visibility_off),
+          icon:
+              Icon(isPasswordVisible ? Icons.visibility : Icons.visibility_off),
           onPressed: () =>
               ref.read(loginViewModel.notifier).togglePasswordVisibility(),
         ),
@@ -107,8 +108,8 @@ class _InputEmail extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-
-    final isLoading = ref.watch(loginViewModel.select((value) => value.isLoading));
+    final isLoading =
+        ref.watch(loginViewModel.select((value) => value.isLoading));
 
     return TextFormField(
       decoration: const InputDecoration(
@@ -122,7 +123,7 @@ class _InputEmail extends ConsumerWidget {
       validator: (value) =>
           ref.read(loginViewModel.notifier).validateEmail(value),
       keyboardType: TextInputType.emailAddress,
-      enabled: !isLoading,  
+      enabled: !isLoading,
     );
   }
 }

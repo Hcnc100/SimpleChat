@@ -23,7 +23,9 @@ class LoginViewModel extends StateNotifier<LoginState> {
     state = state.copyWith(password: password);
   }
 
-  Future<void> onLogin() async {
+  Future<void> onLogin(
+      {required VoidCallback onSuccess}
+  ) async {
     try {
       state = state.copyWith(isLoading: true);
       await _authRepository.login(CredentialsDTO(
@@ -31,6 +33,8 @@ class LoginViewModel extends StateNotifier<LoginState> {
         password: state.password,
       ));
       Fluttertoast.showToast(msg: "Login Successfull");
+
+      onSuccess();
     } catch (e) {
       print(e);
       Fluttertoast.showToast(msg: "Login Failed");
