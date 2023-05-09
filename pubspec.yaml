@@ -33,6 +33,9 @@ dev_dependencies:
   freezed: ^2.3.3
   json_serializable: ^6.6.2
 
+dependency_overrides:
+  intl: ^0.17.0
+
 flutter:
   uses-material-design: true
   assets:

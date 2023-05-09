@@ -80,10 +80,15 @@ class LoginViewModel extends StateNotifier<LoginState> {
     return true;
   }
 
-  Future<void> logout() async {
+  Future<void> logout(
+      {required VoidCallback onSuccess}
+  ) async {
     try {
       state = state.copyWith(isLoading: true);
       await _authRepository.logout();
+       Fluttertoast.showToast(msg: "Logout Successfull");
+      await Future.delayed(const Duration(seconds: 2));
+        onSuccess();
     } catch (e) {
       print(e);
     } finally {
