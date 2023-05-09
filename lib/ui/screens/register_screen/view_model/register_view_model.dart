@@ -1,5 +1,7 @@
 
 
+import 'dart:io';
+
 import 'package:chat_app/domain/auth/auth_repository.dart';
 import 'package:chat_app/ui/screens/register_screen/view_model/register_state.dart';
 import 'package:flutter/material.dart';
@@ -30,7 +32,16 @@ class RegisterViewModel extends StateNotifier<RegisterState>{
   }
 
   validate() {
-    return _formKey.currentState!.validate();
+      if (state.imageProfile == null){
+         Fluttertoast.showToast(msg: "Please select image");
+          return false;
+      }
+      if( !_formKey.currentState!.validate()){
+         Fluttertoast.showToast(msg: "Please fill the form correctly");
+          return false;
+      }
+      return true;
+      
   }
 
   Future<void> onRegister() async {
@@ -89,6 +100,10 @@ class RegisterViewModel extends StateNotifier<RegisterState>{
 
   onToggleConfirmPasswordVisibility() {
     state = state.copyWith(isConfirmPasswordVisible: !state.isConfirmPasswordVisible);
+  }
+
+  void onImageChanged(File file) {
+    state = state.copyWith(imageProfile: file);
   }
 
   

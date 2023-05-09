@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:chat_app/domain/auth/auth_repository.dart';
 import 'package:chat_app/ui/screens/register_screen/view_model/register_view_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -15,6 +17,7 @@ class RegisterState with _$RegisterState {
     @Default(false) bool isLoading,
     @Default(false) bool isPasswordVisible,
     @Default(false) bool isConfirmPasswordVisible,
+    File? imageProfile,
   }) = _RegisterState;
 }
 

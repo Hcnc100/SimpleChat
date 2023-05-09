@@ -1,7 +1,14 @@
+import 'dart:io';
+
 import 'package:chat_app/share/extensions.dart';
+import 'package:chat_app/types/image_type.dart';
 import 'package:chat_app/ui/screens/register_screen/view_model/register_state.dart';
+import 'package:chat_app/ui/screens/register_screen/widgets/menu_select_image.dart';
+import 'package:chat_app/ui/screens/register_screen/widgets/section_select_photo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg_provider/flutter_svg_provider.dart';
+import 'package:image_picker/image_picker.dart';
 
 class FormRegister extends ConsumerWidget {
   const FormRegister({super.key});
@@ -23,7 +30,9 @@ class FormRegister extends ConsumerWidget {
               Text("New Account",
                   style: Theme.of(context).textTheme.titleLarge,
                   textAlign: TextAlign.center),
-              const SizedBox(height: 30),
+                      const SizedBox(height: 10),
+              const SectionPhotoProfile(),
+              const SizedBox(height: 10),
               const _InputEmail(),
               const SizedBox(height: 20),
               const _InputPassword(),
@@ -38,6 +47,8 @@ class FormRegister extends ConsumerWidget {
     );
   }
 }
+
+
 
 class _ButtonRegister extends ConsumerWidget {
   const _ButtonRegister({
@@ -59,8 +70,6 @@ class _ButtonRegister extends ConsumerWidget {
           ref.read(registerViewModel.notifier).onRegister().then((_) {
             Navigator.of(context).pop();
           });
-        } else {
-          context.showSnack( 'Please fill in the form correctly');
         }
       },
       child: const Text('Register'),
@@ -78,7 +87,8 @@ class _InputConfirmPassword extends ConsumerWidget {
     final isPasswordVisible = ref.watch(
         registerViewModel.select((value) => value.isConfirmPasswordVisible));
 
-          final isRegisterLoading = ref.watch(registerViewModel.select((value) => value.isLoading));
+    final isRegisterLoading =
+        ref.watch(registerViewModel.select((value) => value.isLoading));
 
     return TextFormField(
       decoration: InputDecoration(
@@ -94,13 +104,13 @@ class _InputConfirmPassword extends ConsumerWidget {
           border: const OutlineInputBorder(
               borderRadius: BorderRadius.all(Radius.circular(15)))),
       keyboardType: TextInputType.visiblePassword,
-      onChanged: (value) => ref
+      onChanged: (value) =>
+          ref.read(registerViewModel.notifier).onConfirmPasswordChanged(value),
+      validator: (value) => ref
           .read(registerViewModel.notifier)
-          .onConfirmPasswordChanged(value),
-      validator: (value) =>
-          ref.read(registerViewModel.notifier).validatePassword(value: value, isConfirmPassword: true),
+          .validatePassword(value: value, isConfirmPassword: true),
       obscureText: !isPasswordVisible,
-      enabled:  !isRegisterLoading,
+      enabled: !isRegisterLoading,
     );
   }
 }
@@ -114,8 +124,9 @@ class _InputPassword extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final isPasswordVisible =
         ref.watch(registerViewModel.select((value) => value.isPasswordVisible));
-        
-        final isRegisterLoading = ref.watch(registerViewModel.select((value) => value.isLoading));
+
+    final isRegisterLoading =
+        ref.watch(registerViewModel.select((value) => value.isLoading));
 
     return TextFormField(
       decoration: InputDecoration(
@@ -133,9 +144,10 @@ class _InputPassword extends ConsumerWidget {
       keyboardType: TextInputType.visiblePassword,
       onChanged: (value) =>
           ref.read(registerViewModel.notifier).onPasswordChanged(value),
-          validator: (value) => ref.read(registerViewModel.notifier).validatePassword(value: value),
-          obscureText:  !isPasswordVisible,
-          enabled:  !isRegisterLoading,
+      validator: (value) =>
+          ref.read(registerViewModel.notifier).validatePassword(value: value),
+      obscureText: !isPasswordVisible,
+      enabled: !isRegisterLoading,
     );
   }
 }
@@ -147,8 +159,8 @@ class _InputEmail extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-
-      final isRegisterLoading = ref.watch(registerViewModel.select((value) => value.isLoading));
+    final isRegisterLoading =
+        ref.watch(registerViewModel.select((value) => value.isLoading));
 
     return TextFormField(
       decoration: const InputDecoration(
@@ -159,7 +171,8 @@ class _InputEmail extends ConsumerWidget {
       keyboardType: TextInputType.emailAddress,
       onChanged: (value) =>
           ref.read(registerViewModel.notifier).onEmailChanged(value),
-      validator: (value) => ref.read(registerViewModel.notifier).validateEmail(value),
+      validator: (value) =>
+          ref.read(registerViewModel.notifier).validateEmail(value),
       enabled: !isRegisterLoading,
     );
   }

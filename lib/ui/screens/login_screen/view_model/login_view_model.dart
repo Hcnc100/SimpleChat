@@ -67,11 +67,11 @@ class LoginViewModel extends StateNotifier<LoginState> {
   }
 
   validate() {
-    final isValidate = _formKey.currentState!.validate();
-    if(!isValidate){
-      Fluttertoast.showToast(msg: "Please fill in the form correctly");
+    if( !_formKey.currentState!.validate()){
+       Fluttertoast.showToast(msg: "Please fill the form correctly");
+        return false;
     }
-    return isValidate;
+    return true;
   }
 
   Future<void> logout() async {
