@@ -1,8 +1,6 @@
 import 'dart:io';
 
 import 'package:chat_app/domain/auth/auth_repository.dart';
-import 'package:chat_app/models/api/credentials_dto.dart';
-import 'package:chat_app/models/api/register_dto.dart';
 import 'package:chat_app/models/server_exception.dart';
 import 'package:chat_app/ui/screens/register_screen/view_model/register_state.dart';
 import 'package:flutter/material.dart';
