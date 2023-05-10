@@ -7,13 +7,13 @@ class DecorationLogin extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final size = MediaQuery.of(context).size;
     return CustomPaint(
       painter: _LoginPainter(
         theme.colorScheme.primary,
       ),
-      child: const SizedBox(
-        width: double.infinity,
-        height: double.infinity,
+      child:  SizedBox.fromSize(
+        size: size,
       ),
     );
   }

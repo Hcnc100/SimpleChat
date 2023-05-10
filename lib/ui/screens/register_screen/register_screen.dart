@@ -16,7 +16,7 @@ class RegisterScreen extends StatelessWidget {
             const DecorationRegister(),
             SizedBox(
               width: size.width,
-              height: 900,
+              height: 820,
             ),
             Positioned(
               top: safePadding + 10,
