@@ -85,7 +85,7 @@ class _InputPassword extends ConsumerWidget {
         prefixIcon: const Icon(Icons.lock),
         suffixIcon: IconButton(
           icon:
-              Icon(isPasswordVisible ? Icons.visibility : Icons.visibility_off),
+              Icon(isPasswordVisible ? Icons.visibility_off: Icons.visibility),
           onPressed: () =>
               ref.read(loginViewModel.notifier).togglePasswordVisibility(),
         ),

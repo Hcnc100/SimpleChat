@@ -54,9 +54,14 @@ class FormRegister extends ConsumerWidget {
 
 class _InputNickName extends ConsumerWidget {
   const _InputNickName({super.key});
+  
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+
+     final isRegisterLoading =
+        ref.watch(registerViewModel.select((value) => value.isLoading));
+
     return TextFormField(
       decoration: const InputDecoration(
           prefixIcon: Icon(Icons.person),
@@ -68,6 +73,7 @@ class _InputNickName extends ConsumerWidget {
           ref.read(registerViewModel.notifier).onNickNameChanged(value),
       validator: (value) =>
           ref.read(registerViewModel.notifier).validateNickName(value),
+      enabled: !isRegisterLoading,
     );
   }
 }

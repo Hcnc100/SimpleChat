@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:chat_app/domain/auth/auth_repository.dart';
 import 'package:chat_app/models/api/credentials_dto.dart';
 import 'package:chat_app/models/api/register_dto.dart';
+import 'package:chat_app/models/server_exception.dart';
 import 'package:chat_app/ui/screens/register_screen/view_model/register_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -53,8 +54,11 @@ class RegisterViewModel extends StateNotifier<RegisterState> {
       Fluttertoast.showToast(msg: "Register Successfull");
 
       onSuccess();
-    } catch (e) {
-      Fluttertoast.showToast(msg: "Register Failed");
+      } on ServerException catch (e) {
+      print(e);
+      Fluttertoast.showToast(msg:  e.message);
+    }catch (e) {
+      Fluttertoast.showToast(msg: "Logout Failed");
       print(e);
     } finally {
       state = state.copyWith(isLoading: false);

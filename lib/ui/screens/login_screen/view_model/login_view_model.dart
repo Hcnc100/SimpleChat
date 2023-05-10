@@ -1,5 +1,6 @@
 import 'package:chat_app/domain/auth/auth_repository.dart';
 import 'package:chat_app/models/api/credentials_dto.dart';
+import 'package:chat_app/models/server_exception.dart';
 import 'package:chat_app/ui/screens/login_screen/view_model/login_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -35,9 +36,12 @@ class LoginViewModel extends StateNotifier<LoginState> {
       Fluttertoast.showToast(msg: "Login Successfull");
 
       onSuccess();
-    } catch (e) {
+     } on ServerException catch (e) {
       print(e);
-      Fluttertoast.showToast(msg: "Login Failed");
+      Fluttertoast.showToast(msg:  e.message);
+    }catch (e) {
+      Fluttertoast.showToast(msg: "Logout Failed");
+      print(e);
     } finally {
       state = state.copyWith(isLoading: false);
     }
@@ -89,7 +93,11 @@ class LoginViewModel extends StateNotifier<LoginState> {
        Fluttertoast.showToast(msg: "Logout Successfull");
       await Future.delayed(const Duration(seconds: 2));
         onSuccess();
-    } catch (e) {
+    } on ServerException catch (e) {
+      print(e);
+      Fluttertoast.showToast(msg:  e.message);
+    }catch (e) {
+      Fluttertoast.showToast(msg: "Logout Failed");
       print(e);
     } finally {
       state = state.copyWith(isLoading: false);
