@@ -10,8 +10,8 @@ class RegisterScreen extends StatelessWidget {
     final safePadding = MediaQuery.of(context).padding.top;
     return Scaffold(
       resizeToAvoidBottomInset: true,
-      body: SingleChildScrollView(
-        child: Stack(
+        body: SingleChildScrollView(
+          child: Stack(
           children: [
             const DecorationRegister(),
             SizedBox(
@@ -30,9 +30,9 @@ class RegisterScreen extends StatelessWidget {
               child: FormRegister(),
             ),
           ],
-        ),
-      ),
-    );
+              ),
+            ),
+        );
   }
 }
 

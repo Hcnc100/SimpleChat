@@ -36,7 +36,7 @@ class FormRegister extends ConsumerWidget {
               const SizedBox(height: 15),
               const SectionPhotoProfile(),
               const SizedBox(height: 15),
-              const _InputNickName(),
+                  const _InputNickName(),
               const SizedBox(height: 15),
               const _InputEmail(),
               const SizedBox(height: 15),
@@ -55,13 +55,13 @@ class FormRegister extends ConsumerWidget {
 
 class _InputNickName extends ConsumerWidget {
   const _InputNickName({super.key});
-
+  
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
 
-    final isRegisterLoading =
-    ref.watch(registerViewModel.select((value) => value.isLoading));
+     final isRegisterLoading =
+        ref.watch(registerViewModel.select((value) => value.isLoading));
 
     return TextFormField(
       decoration: const InputDecoration(
@@ -87,7 +87,7 @@ class _ButtonRegister extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isRegisterLoading =
-    ref.watch(registerViewModel.select((value) => value.isLoading));
+        ref.watch(registerViewModel.select((value) => value.isLoading));
 
     if (isRegisterLoading) {
       return const CircularProgressIndicator();
@@ -97,7 +97,7 @@ class _ButtonRegister extends ConsumerWidget {
       onPressed: () {
         if (ref.read(registerViewModel.notifier).validate()) {
           ref.read(registerViewModel.notifier).onRegister(
-            onSuccess: () => context.go(AppRouter.chat),
+              onSuccess: () => context.go(AppRouter.chat),
           );
         }
       },
@@ -117,7 +117,7 @@ class _InputConfirmPassword extends ConsumerWidget {
         registerViewModel.select((value) => value.isConfirmPasswordVisible));
 
     final isRegisterLoading =
-    ref.watch(registerViewModel.select((value) => value.isLoading));
+        ref.watch(registerViewModel.select((value) => value.isLoading));
 
     return TextFormField(
       decoration: InputDecoration(
@@ -152,10 +152,10 @@ class _InputPassword extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isPasswordVisible =
-    ref.watch(registerViewModel.select((value) => value.isPasswordVisible));
+        ref.watch(registerViewModel.select((value) => value.isPasswordVisible));
 
     final isRegisterLoading =
-    ref.watch(registerViewModel.select((value) => value.isLoading));
+        ref.watch(registerViewModel.select((value) => value.isLoading));
 
     return TextFormField(
       decoration: InputDecoration(
@@ -189,7 +189,7 @@ class _InputEmail extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isRegisterLoading =
-    ref.watch(registerViewModel.select((value) => value.isLoading));
+        ref.watch(registerViewModel.select((value) => value.isLoading));
 
     return TextFormField(
       decoration: const InputDecoration(
