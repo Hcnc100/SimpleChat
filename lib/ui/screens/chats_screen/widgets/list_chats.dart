@@ -10,23 +10,51 @@ class ListMessages extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final messages =
-        ref.watch(chatsViewModel.select((value) => value.messages));
+    final steamMessages =  ref.watch(chatsViewModel.select((value) => value.streamMessages));
 
-    if (messages.isEmpty) {
-      return const Expanded(
-        child: Center(
-          child: Text("No messages"),
-        ),
-      );
-    }
 
-    return Expanded(
-        child: ListView.builder(
-      controller: ref.read(chatsViewModel.notifier).scrollController,
-      itemCount: messages.length,
-      itemBuilder: (context, index) => ItemMessage(message: messages[index]),
-    ));
+
+
+    return StreamBuilder(
+        stream: steamMessages,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting || snapshot.connectionState == ConnectionState.none) {
+            return const Expanded(
+              child: Center(
+                child: CircularProgressIndicator(),
+              ),
+            );
+          }
+
+          if (snapshot.hasError) {
+            return const Expanded(
+              child: Center(
+                child: Text("Error"),
+              ),
+            );
+          }
+
+          if ( snapshot.data?.isEmpty == true) {
+            return const Expanded(
+              child: Center(
+                child: Text("No messages"),
+              ),
+            );
+          }
+
+          final messages = snapshot.data as List<MessageData>;
+
+          return Expanded(
+            child: ListView.builder(
+              reverse: true,
+              itemCount: messages.length,
+              itemBuilder: (context, index) {
+                final message = messages[index];
+                return ItemMessage(message: message);
+              },
+            ),
+          );
+        });
   }
 }
 

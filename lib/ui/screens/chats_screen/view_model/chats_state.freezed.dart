@@ -17,7 +17,8 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$ChatsState {
   String get message => throw _privateConstructorUsedError;
-  List<MessageData> get messages => throw _privateConstructorUsedError;
+  Stream<List<MessageData>>? get streamMessages =>
+      throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $ChatsStateCopyWith<ChatsState> get copyWith =>
@@ -30,7 +31,7 @@ abstract class $ChatsStateCopyWith<$Res> {
           ChatsState value, $Res Function(ChatsState) then) =
       _$ChatsStateCopyWithImpl<$Res, ChatsState>;
   @useResult
-  $Res call({String message, List<MessageData> messages});
+  $Res call({String message, Stream<List<MessageData>>? streamMessages});
 }
 
 /// @nodoc
@@ -47,17 +48,17 @@ class _$ChatsStateCopyWithImpl<$Res, $Val extends ChatsState>
   @override
   $Res call({
     Object? message = null,
-    Object? messages = null,
+    Object? streamMessages = freezed,
   }) {
     return _then(_value.copyWith(
       message: null == message
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
               as String,
-      messages: null == messages
-          ? _value.messages
-          : messages // ignore: cast_nullable_to_non_nullable
-              as List<MessageData>,
+      streamMessages: freezed == streamMessages
+          ? _value.streamMessages
+          : streamMessages // ignore: cast_nullable_to_non_nullable
+              as Stream<List<MessageData>>?,
     ) as $Val);
   }
 }
@@ -70,7 +71,7 @@ abstract class _$$_ChatsStateCopyWith<$Res>
       __$$_ChatsStateCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String message, List<MessageData> messages});
+  $Res call({String message, Stream<List<MessageData>>? streamMessages});
 }
 
 /// @nodoc
@@ -85,17 +86,17 @@ class __$$_ChatsStateCopyWithImpl<$Res>
   @override
   $Res call({
     Object? message = null,
-    Object? messages = null,
+    Object? streamMessages = freezed,
   }) {
     return _then(_$_ChatsState(
       message: null == message
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
               as String,
-      messages: null == messages
-          ? _value._messages
-          : messages // ignore: cast_nullable_to_non_nullable
-              as List<MessageData>,
+      streamMessages: freezed == streamMessages
+          ? _value.streamMessages
+          : streamMessages // ignore: cast_nullable_to_non_nullable
+              as Stream<List<MessageData>>?,
     ));
   }
 }
@@ -103,25 +104,17 @@ class __$$_ChatsStateCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_ChatsState implements _ChatsState {
-  _$_ChatsState(
-      {this.message = "", final List<MessageData> messages = const []})
-      : _messages = messages;
+  _$_ChatsState({this.message = "", this.streamMessages});
 
   @override
   @JsonKey()
   final String message;
-  final List<MessageData> _messages;
   @override
-  @JsonKey()
-  List<MessageData> get messages {
-    if (_messages is EqualUnmodifiableListView) return _messages;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_messages);
-  }
+  final Stream<List<MessageData>>? streamMessages;
 
   @override
   String toString() {
-    return 'ChatsState(message: $message, messages: $messages)';
+    return 'ChatsState(message: $message, streamMessages: $streamMessages)';
   }
 
   @override
@@ -130,12 +123,12 @@ class _$_ChatsState implements _ChatsState {
         (other.runtimeType == runtimeType &&
             other is _$_ChatsState &&
             (identical(other.message, message) || other.message == message) &&
-            const DeepCollectionEquality().equals(other._messages, _messages));
+            (identical(other.streamMessages, streamMessages) ||
+                other.streamMessages == streamMessages));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType, message, const DeepCollectionEquality().hash(_messages));
+  int get hashCode => Object.hash(runtimeType, message, streamMessages);
 
   @JsonKey(ignore: true)
   @override
@@ -146,12 +139,13 @@ class _$_ChatsState implements _ChatsState {
 
 abstract class _ChatsState implements ChatsState {
   factory _ChatsState(
-      {final String message, final List<MessageData> messages}) = _$_ChatsState;
+      {final String message,
+      final Stream<List<MessageData>>? streamMessages}) = _$_ChatsState;
 
   @override
   String get message;
   @override
-  List<MessageData> get messages;
+  Stream<List<MessageData>>? get streamMessages;
   @override
   @JsonKey(ignore: true)
   _$$_ChatsStateCopyWith<_$_ChatsState> get copyWith =>

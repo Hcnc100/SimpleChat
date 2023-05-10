@@ -1,10 +1,21 @@
-import 'package:chat_app/models/message_data.dart';
+import 'package:chat_app/domain/messages/message_repository.dart';
 import 'package:chat_app/ui/screens/chats_screen/view_model/chats_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class ChatsViewModel extends StateNotifier<ChatsState> {
-  ChatsViewModel(super.state);
+  final MessageRepository _messageRepository;
+
+  ChatsViewModel(state, {required MessageRepository messageRepository})
+      : _messageRepository = messageRepository,
+        super(state) {
+    _getStreamMessages();
+  }
+
+  _getStreamMessages() async {
+    final stream = await _messageRepository.getMessages();
+    state = state.copyWith(streamMessages: stream);
+  }
 
   final ScrollController scrollController = ScrollController();
 
@@ -23,13 +34,7 @@ class ChatsViewModel extends StateNotifier<ChatsState> {
   }
 
   Future<void> sendMessage() async {
-    state = state.copyWith(messages: [
-      ...state.messages,
-      MessageData.fromOnlyMessage(state.message)
-    ]);
+    await _messageRepository.addNewMessage(state.message);
     state = state.copyWith(message: "");
-
-    await Future.delayed(const Duration(milliseconds: 500), () {});
-    onMessageScroll();
   }
 }
