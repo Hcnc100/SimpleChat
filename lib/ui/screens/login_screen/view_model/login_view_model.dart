@@ -91,7 +91,6 @@ class LoginViewModel extends StateNotifier<LoginState> {
       state = state.copyWith(isLoading: true);
       await _authRepository.logout();
        Fluttertoast.showToast(msg: "Logout Successfull");
-      await Future.delayed(const Duration(seconds: 2));
         onSuccess();
     } on ServerException catch (e) {
       print(e);
